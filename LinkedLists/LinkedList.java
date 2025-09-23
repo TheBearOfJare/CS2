@@ -59,6 +59,9 @@ public class LinkedList<E> {
                 
                 if (previous == null) {
                     root = root.next;
+                    if (root == null) {
+                        end = null;
+                    }
                 } else if (current == end) {
                     previous.next = null;
                     end = previous;
