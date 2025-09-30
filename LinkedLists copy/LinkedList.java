@@ -1,4 +1,3 @@
-
 public class LinkedList<E extends Comparable<E>> {
 
     private Node<E> root;
@@ -14,22 +13,14 @@ public class LinkedList<E extends Comparable<E>> {
     public void add(E data) {
         Node<E> newNode = new Node<>(data);
         Node<E> current = root.next;
-        for (; current.next != end && current.data.compareTo(data) < 0; current = current.next)
+        for (; current != end && current.data.compareTo(data) < 0; current = current.next)
             ;
 
-        if (current.data.compareTo(data) >= 0) {
-            // new data on left
-            newNode.next = current;
-            newNode.prev = current.prev;
-            newNode.next.prev = newNode;
-            newNode.prev.next = newNode;
-        } else {
-            // new data on right
-            newNode.prev = current;
-            newNode.next = null;
-            newNode.prev.next = newNode;
-            end = newNode;
-        }
+        newNode.next = current;
+        newNode.prev = current.prev;
+        newNode.next.prev = newNode;
+        newNode.prev.next = newNode;
+        
     }
 
     public void clear() {
@@ -37,15 +28,19 @@ public class LinkedList<E extends Comparable<E>> {
     }
 
     public E removeFirst() { // sometimes called "poll"
-        if (root != null) {
-            E data = root.data;
-            root = root.next;
+        if (root.next != end) {
+            E data = root.next.data;
+            root.next = root.next.next;
             if (root == null) { // list had only one element
                 end = null;
             }
             return data;
         }
         return null;
+    }
+
+    public boolean isEmpty() {
+        return root.next == end;
     }
 
     public boolean remove(E data) {
@@ -81,14 +76,20 @@ public class LinkedList<E extends Comparable<E>> {
     }
 
     public void print() {
-        System.out.print("[");
+
+        StringBuilder bob = new StringBuilder();
+
+        bob.append('[');
+
         for (Node<E> current = root; current != end; current = current.next) {
-            System.out.print(current.data + ", ");
+            bob.append(current.data);
+            bob.append(", ");
         }
-        if (end != null) {
-            System.out.println(end.data + "]");
-        } else {
-            System.out.println("]");
+        if (bob.length() > 1) {
+            bob.setCharAt(bob.length() - 2, ']');
+        }
+        else {
+            bob.append(']');
         }
     }
 }
