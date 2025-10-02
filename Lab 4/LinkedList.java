@@ -43,8 +43,6 @@ public class LinkedList {
         for (Node<String> current = root, previous = null; current != null; current = current.next) {
             if (current.data.equals(data)) {
 
-                
-
                 if (current != root) {
                     System.out.println("Removing " + data + " after " + previous.data);
                     if (current.next == null) {
